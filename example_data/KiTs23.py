@@ -45,7 +45,7 @@ def load_folder(path: pathlib.Path, size: Tuple[int, int] = (128, 128)):
     return data
 
 
-def require_download_oasis():
+def require_download_KiTs23():
     dest_folder = pathlib.Path("/tmp/universeg_kits23/")
 
     if not dest_folder.exists():
@@ -74,7 +74,7 @@ class KiTs23Dataset(Dataset):
     support_frac: float = 0.7
 
     def __post_init__(self):
-        path = require_download_oasis()
+        path = require_download_KiTs23()
         T = torch.from_numpy
         self._data = [(T(x)[None], T(y)) for x, y in load_folder(path)]
         if self.label is not None:
