@@ -28,9 +28,9 @@ def process_seg(path: pathlib.Path, size: Tuple[int, int]):
 
 def load_folder(path: pathlib.Path, size: Tuple[int, int] = (128, 128)):
     data = []
-    for file in sorted(path.glob("images/*.png")):  # Adjust the path based on the STARE dataset structure
-        img = process_img(file, size=size)
-        seg_file = pathlib.Path(str(file).replace("images", "labels").replace(".png", "_seg.png"))  # Adjust based on STARE's structure
+    for file in sorted(path.glob("STARE/images/training/*.png")):  # Adjust the path based on the STARE dataset structure
+        img = process_img(file, size=size) # Load the training 
+        seg_file = pathlib.Path(str(file).replace("images", "annotations").replace(".png", ".ah.png"))  # Adjust based on STARE's structure
         seg = process_seg(seg_file, size=size)
         data.append((img, seg))
     return data
@@ -87,3 +87,5 @@ class STAREDataset(Dataset):
         if self.label is not None:
             seg = (seg == self._ilabel)[None]
         return img, seg
+
+
