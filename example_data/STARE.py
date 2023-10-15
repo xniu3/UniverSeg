@@ -5,6 +5,7 @@ from typing import Literal, Tuple
 
 import numpy as np
 import PIL
+import PIL.Image
 import torch
 from torch.utils.data import Dataset
 
@@ -29,10 +30,12 @@ def process_seg(path: pathlib.Path, size: Tuple[int, int]):
 def load_folder(path: pathlib.Path, size: Tuple[int, int] = (128, 128)):
     data = []
     for file in sorted(path.glob("STARE/images/training/*.png")):  # Adjust the path based on the STARE dataset structure
+        # print(file)
         img = process_img(file, size=size) # Load the training 
         seg_file = pathlib.Path(str(file).replace("images", "annotations").replace(".png", ".ah.png"))  # Adjust based on STARE's structure
         seg = process_seg(seg_file, size=size)
         data.append((img, seg))
+    # print("data is", data)
     return data
 
 
@@ -41,7 +44,7 @@ def require_download_stare():
 
     if not dest_folder.exists():
         # Replace with the actual URL of the STARE dataset
-        tar_url = "'https://bj.bcebos.com/paddleseg/dataset/stare/stare.zip'"
+        tar_url = "https://bj.bcebos.com/paddleseg/dataset/stare/stare.zip"
         subprocess.run(
             ["curl", tar_url, "--create-dirs", "-o",
                 str(dest_folder/'stare.zip'),],
@@ -88,4 +91,4 @@ class STAREDataset(Dataset):
             seg = (seg == self._ilabel)[None]
         return img, seg
 
-
+load_folder(pathlib.Path("/tmp/universeg_stare/"))
