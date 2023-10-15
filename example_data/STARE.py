@@ -91,4 +91,4 @@ class STAREDataset(Dataset):
             seg = (seg == self._ilabel)[None]
         return img, seg
 
-load_folder(pathlib.Path("/tmp/universeg_stare/"))
+# load_folder(pathlib.Path("/tmp/universeg_stare/"))
